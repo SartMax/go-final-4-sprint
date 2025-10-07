@@ -182,7 +182,7 @@ func (suite *SpentCaloriesTestSuite) TestParseTraining() {
 
 	for _, tt := range tests {
 		suite.Run(tt.name, func() {
-			gotSteps, _, gotDuration, err := parseTraining(tt.input)
+			gotSteps, _, gotDuration, err := ParseTraining(tt.input)
 
 			if tt.wantErr {
 				assert.Error(suite.T(), err)
