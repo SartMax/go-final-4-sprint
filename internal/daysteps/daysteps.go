@@ -2,6 +2,7 @@ package daysteps
 
 import (
 	"fmt"
+	"log"
 	"strconv"
 	"strings"
 	"time"
@@ -15,15 +16,22 @@ const (
 )
 
 func parsePackage(data string) (int, time.Duration, error) {
+	if strings.TrimSpace(data) == "" {
+		return 0, 0, fmt.Errorf("пустой ввод")
+	}
+
 	parts := strings.Split(data, ",")
 
 	if len(parts) != 2 {
 		return 0, 0, fmt.Errorf("неверный формат данных: ожидается 'steps,duration'")
 	}
 
-	// Убираем пробелы - ВАЖНО для прохождения тестов
 	stepsStr := strings.TrimSpace(parts[0])
 	durationStr := strings.TrimSpace(parts[1])
+
+	if stepsStr != parts[0] || durationStr != parts[1] {
+		return 0, 0, fmt.Errorf("неверный формат данных")
+	}
 
 	if stepsStr == "" {
 		return 0, 0, fmt.Errorf("количество шагов не может быть пустым")
@@ -56,11 +64,13 @@ func parsePackage(data string) (int, time.Duration, error) {
 
 func DayActionInfo(data string, weight, height float64) string {
 	if strings.TrimSpace(data) == "" {
+		log.Println("пустой ввод")
 		return ""
 	}
 
 	steps, duration, err := parsePackage(data)
 	if err != nil {
+		log.Println(err)
 		return ""
 	}
 
@@ -69,6 +79,7 @@ func DayActionInfo(data string, weight, height float64) string {
 
 	calories, err := spentcalories.WalkingSpentCalories(steps, weight, height, duration)
 	if err != nil {
+		log.Println(err)
 		return ""
 	}
 

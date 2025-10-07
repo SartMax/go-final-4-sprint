@@ -57,7 +57,6 @@ func MeanSpeed(distance float64, duration time.Duration) float64 {
 	return distance / duration.Hours()
 }
 
-// ИСПРАВЛЕННАЯ формула для бега
 func RunningSpentCalories(steps int, weight float64, duration time.Duration) (float64, error) {
 	if steps <= 0 {
 		return 0, fmt.Errorf("количество шагов должно быть больше 0")
@@ -72,13 +71,11 @@ func RunningSpentCalories(steps int, weight float64, duration time.Duration) (fl
 	distance := Distance(steps)
 	speed := MeanSpeed(distance, duration)
 
-	// ПРАВИЛЬНАЯ формула для бега
-	calories := (0.035*weight + (speed*speed/1.75)*0.029*weight) * duration.Hours()
+	calories := (0.035*weight + (speed*speed/1.75)*0.029*weight) * 2 * duration.Hours()
 
 	return calories, nil
 }
 
-// ИСПРАВЛЕННАЯ формула для ходьбы
 func WalkingSpentCalories(steps int, weight, height float64, duration time.Duration) (float64, error) {
 	if steps <= 0 {
 		return 0, fmt.Errorf("количество шагов должно быть больше 0")
@@ -96,7 +93,6 @@ func WalkingSpentCalories(steps int, weight, height float64, duration time.Durat
 	distance := Distance(steps)
 	speed := MeanSpeed(distance, duration)
 
-	// ПРАВИЛЬНАЯ формула для ходьбы
 	calories := (0.035*weight + (speed*speed/height)*0.029*weight) * duration.Hours()
 
 	return calories, nil
