@@ -21,28 +21,30 @@ func parsePackage(data string) (int, time.Duration, error) {
 		return 0, 0, fmt.Errorf("неверный формат данных: ожидается 'steps,duration'")
 	}
 
+	// Убираем пробелы - ВАЖНО для прохождения тестов
 	stepsStr := strings.TrimSpace(parts[0])
+	durationStr := strings.TrimSpace(parts[1])
+
 	if stepsStr == "" {
 		return 0, 0, fmt.Errorf("количество шагов не может быть пустым")
 	}
 
 	steps, err := strconv.Atoi(stepsStr)
 	if err != nil {
-		return 0, 0, fmt.Errorf("ошибка преобразования количества шагов '%s': %v", stepsStr, err)
+		return 0, 0, fmt.Errorf("неверное количество шагов")
 	}
 
 	if steps <= 0 {
 		return 0, 0, fmt.Errorf("количество шагов должно быть больше 0")
 	}
 
-	durationStr := strings.TrimSpace(parts[1])
 	if durationStr == "" {
 		return 0, 0, fmt.Errorf("продолжительность не может быть пустой")
 	}
 
 	duration, err := time.ParseDuration(durationStr)
 	if err != nil {
-		return 0, 0, fmt.Errorf("ошибка преобразования продолжительности '%s': %v", durationStr, err)
+		return 0, 0, fmt.Errorf("неверная продолжительность")
 	}
 
 	if duration <= 0 {
@@ -70,7 +72,6 @@ func DayActionInfo(data string, weight, height float64) string {
 		return ""
 	}
 
-	// ДОБАВЛЕН завершающий \n
 	result := fmt.Sprintf("Количество шагов: %d.\nДистанция составила %.2f км.\nВы сожгли %.2f ккал.\n",
 		steps, distanceKm, calories)
 
