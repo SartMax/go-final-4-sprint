@@ -21,7 +21,6 @@ func parsePackage(data string) (int, time.Duration, error) {
 	}
 
 	parts := strings.Split(data, ",")
-
 	if len(parts) != 2 {
 		return 0, 0, fmt.Errorf("неверный формат данных: ожидается 'steps,duration'")
 	}
@@ -29,6 +28,7 @@ func parsePackage(data string) (int, time.Duration, error) {
 	stepsStr := strings.TrimSpace(parts[0])
 	durationStr := strings.TrimSpace(parts[1])
 
+	// Проверяем на наличие пробелов в начале/конце
 	if stepsStr != parts[0] || durationStr != parts[1] {
 		return 0, 0, fmt.Errorf("неверный формат данных")
 	}
