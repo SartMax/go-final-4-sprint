@@ -15,7 +15,6 @@ const (
 )
 
 func parsePackage(data string) (int, time.Duration, error) {
-
 	parts := strings.Split(data, ",")
 
 	if len(parts) != 2 {
@@ -60,21 +59,19 @@ func DayActionInfo(data string, weight, height float64) string {
 
 	steps, duration, err := parsePackage(data)
 	if err != nil {
-		// fmt.Printf("Ошибка парсинга данных '%s': %v\n", data, err)
 		return ""
 	}
 
 	distanceMeters := float64(steps) * stepLength
-
 	distanceKm := distanceMeters / mInKm
 
 	calories, err := spentcalories.WalkingSpentCalories(steps, weight, height, duration)
 	if err != nil {
-		// fmt.Printf("Ошибка расчета калорий: %v\n", err)
 		return ""
 	}
 
-	result := fmt.Sprintf("Количество шагов: %d.\nДистанция составила %.2f км.\nВы сожгли %.2f ккал.",
+	// ДОБАВЛЕН завершающий \n
+	result := fmt.Sprintf("Количество шагов: %d.\nДистанция составила %.2f км.\nВы сожгли %.2f ккал.\n",
 		steps, distanceKm, calories)
 
 	return result
